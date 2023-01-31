@@ -4,3 +4,4 @@
 /screens/__init__.py
 /tests/__init__.py
 /utilities/__init__.py
+.gitignore
