@@ -1,0 +1,6 @@
+/venv/
+/.idea/
+/pages/__init__.py
+/screens/__init__.py
+/tests/__init__.py
+/utilities/__init__.py
