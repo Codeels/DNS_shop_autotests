@@ -55,13 +55,9 @@ class CatalogPage(BasePage):
     name_product2 = '//div[@data-id="product"][2]//a[@class="catalog-product__name ui-link ui-link_black"]//span'
     price_product1 = '//div[@data-id="product"][1]//div[@class="product-buy__price"]'
     price_product2 = '//div[@data-id="product"][2]//div[@class="product-buy__price"]'
-    # на старнице каталога sku появляются только после наведения курсора
-    product1_code = ''
-    product2_code = ''
     # TODO подумать, нужны ли эти локаторы
     service_rating_product1 = '//div[@data-id="product"][1]//a[contains(@class,"catalog-product__service-rating")]'
     service_rating_product2 = '//div[@data-id="product"][2]//a[contains(@class,"catalog-product__service-rating")]'
-
 
     # Getters
     def get_filter_price(self):
@@ -187,18 +183,18 @@ class CatalogPage(BasePage):
     # Actions
 
     # TODO может объединить фильрацию по цене и добавить ввод значений "снаружи"?
-    def input_filter_price_min(self):
+    def input_filter_price_min(self, price_min):
         action = ActionChains(self.driver)
         # надо было взять другой локатор
         action.move_to_element(self.get_filter_price()).perform()
-        action.click(self.get_filter_price_min()).send_keys("1500").perform()
+        action.click(self.get_filter_price_min()).send_keys(price_min).perform()
 
         # self.get_filter_price_min().click().send_keys("1500")
 
-    def input_filter_price_max(self):
+    def input_filter_price_max(self, price_max):
         action = ActionChains(self.driver)
         # target = self.driver.find_element(By.XPATH, self.filter_price_max)
-        action.click(self.get_filter_price_max()).send_keys("15000").perform()
+        action.click(self.get_filter_price_max()).send_keys(price_max).perform()
         # self.get_filter_price_max().click().send_keys("15000")
 
     def input_filter_brand(self, amd=False, intel=False):
@@ -211,13 +207,14 @@ class CatalogPage(BasePage):
         elif intel:
             action.click(self.get_filter_brand_intel()).perform()
 
-    def input_filter_cores(self, cores_4 = False, cores_6 = False, cores_8 = False):
+    def input_filter_cores(self, cores_4=False, cores_6=False, cores_8=False):
         action = ActionChains(self.driver)
         action.move_to_element(self.get_filter_cores()).perform()
         # почему-то заработало только после разделения перехода и клика на фильтр с количеством ядер
         action.click(self.get_filter_cores()).perform()
         if cores_4 and cores_6 and cores_8:
-            action.click(self.get_filter_cores_4()).click(self.get_filter_cores_6()).click(self.get_filter_cores_8()).perform()
+            action.click(self.get_filter_cores_4()).click(self.get_filter_cores_6()).click(
+                self.get_filter_cores_8()).perform()
         elif cores_4 and cores_6:
             action.click(self.get_filter_cores_4()).click(self.get_filter_cores_6()).perform()
         elif cores_4 and cores_8:
@@ -237,7 +234,8 @@ class CatalogPage(BasePage):
         action.move_to_element(self.get_filter_internal_graphics()).perform()
         action.click(self.get_filter_internal_graphics()).perform()
         if yes and no:
-            action.click(self.get_filter_internal_graphics_yes()).click(self.get_filter_internal_graphics_no()).perform()
+            action.click(self.get_filter_internal_graphics_yes()).click(
+                self.get_filter_internal_graphics_no()).perform()
         elif yes:
             action.click(self.get_filter_internal_graphics_yes()).perform()
         elif no:
@@ -266,6 +264,7 @@ class CatalogPage(BasePage):
     def click_button_product2_buy(self):
         self.get_button_product2_buy().click()
 
+    # TODO может быть стоит переместить в методы из actions
     def click_button_submit(self):
         action = ActionChains(self.driver)
         action.move_to_element(self.get_button_submit()).click(self.get_button_submit()).perform()
@@ -274,10 +273,19 @@ class CatalogPage(BasePage):
         action = ActionChains(self.driver)
         action.move_to_element(self.get_button_reset()).click(self.get_button_reset()).perform()
 
-
-
     # Methods
-    def set_price(self):
-        self.input_filter_price_min()
-        self.input_filter_price_max()
-        self.click_button_submit()
+    def set_price(self, price_min, price_max):
+        self.input_filter_price_min(price_min)
+        self.input_filter_price_max(price_max)
+
+    def set_brand(self, amd=False, intel=False):
+        self.input_filter_brand(amd, intel)
+
+    def set_cores(self, cores_4=False, cores_6=False, cores_8=False):
+        self.input_filter_cores(cores_4, cores_6, cores_8)
+
+    def set_internal_graphics(self, yes=False, no=False):
+        self.input_filter_internal_graphics(yes, no)
+
+    def set_ram(self, ddr4=False, ddr5=False):
+        self.input_filter_ram(ddr4, ddr5)

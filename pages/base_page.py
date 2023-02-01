@@ -68,10 +68,12 @@ class BasePage():
             EC.element_to_be_clickable((By.XPATH, self.button_catalog)))
 
     def get_link_pc_parts(self):
-        return WebDriverWait(self.driver, self.wait_time).until(EC.element_to_be_clickable((By.XPATH, self.pc_parts)))
+        return WebDriverWait(self.driver, self.wait_time).until(
+            EC.element_to_be_clickable((By.XPATH, self.pc_parts)))
 
     def get_link_cpus(self):
-        return WebDriverWait(self.driver, self.wait_time).until(EC.element_to_be_clickable((By.XPATH, self.cpus)))
+        return WebDriverWait(self.driver, self.wait_time).until(
+            EC.element_to_be_clickable((By.XPATH, self.cpus)))
 
     # Actions
 
@@ -136,4 +138,6 @@ class BasePage():
 
     def go_to_comparison_page(self):
         self.click_button_compare()
+
+# TODO надо ли сюда добавить assert для сравнения цен, названий и т.д. на разных страницах?
 

@@ -24,8 +24,6 @@ class MainPage(BasePage):
     link_major_parts = "//a[@href='/catalog/88f4ff1d39dee00e/osnovnye-komplektuyushhie-dlya-pk/']"
     link_cpus = '//a[@href="/catalog/17a899cd16404e77/processory/"]'
 
-    # TODO надо проверить, что покупка не проходит без введения данных
-
     # Getters
 
     def get_computer_parts_link(self):
