@@ -149,15 +149,61 @@ class CatalogPage(BasePage):
         action.click(self.get_filter_price_max()).send_keys("15000").perform()
         # self.get_filter_price_max().click().send_keys("15000")
 
-    def input_filter_brand(self):
+    def input_filter_brand(self, amd=False, intel=False):
         action = ActionChains(self.driver)
         action.move_to_element(self.get_filter_brand()).perform()
-        action.click(self.get_filter_brand_intel()).perform()
+        if amd and intel:
+            action.click(self.get_filter_brand_amd()).click(self.get_filter_brand_intel()).perform()
+        elif amd:
+            action.click(self.get_filter_brand_amd()).perform()
+        elif intel:
+            action.click(self.get_filter_brand_intel()).perform()
+
+    def input_filter_cores(self, cores_4=False, cores_6=False, cores_8=False):
+        action = ActionChains(self.driver)
+        action.move_to_element(self.get_filter_cores()).perform()
+        # почему-то заработало только после разделения перехода и клика на фильтр с количеством ядер
+        action.click(self.get_filter_cores()).perform()
+        if cores_4 and cores_6 and cores_8:
+            action.click(self.get_filter_cores_4()).click(self.get_filter_cores_6()).click(self.get_filter_cores_8()).perform()
+        elif cores_4 and cores_6:
+            action.click(self.get_filter_cores_4()).click(self.get_filter_cores_6()).perform()
+        elif cores_4 and cores_8:
+            action.click(self.get_filter_cores_4()).click(self.get_filter_cores_8()).perform()
+        elif cores_6 and cores_8:
+            action.click(self.get_filter_cores_6()).click(self.get_filter_cores_8()).perform()
+        elif cores_4:
+            action.click(self.get_filter_cores_4()).perform()
+        elif cores_6:
+            action.click(self.get_filter_cores_6()).perform()
+        elif cores_8:
+            action.click(self.get_filter_cores_8()).perform()
+
+    # здесь странная логика, так как на сайте вместо радиобатона использован чекбокс
+    def input_filter_internal_graphics(self, yes=False, no=False):
+        action = ActionChains(self.driver)
+        action.move_to_element(self.get_filter_internal_graphics()).perform()
+        action.click(self.get_filter_internal_graphics()).perform()
+        if yes and no:
+            action.click(self.get_filter_internal_graphics_yes()).click(self.get_filter_internal_graphics_no()).perform()
+        elif yes:
+            action.click(self.get_filter_internal_graphics_yes()).perform()
+        elif no:
+            action.click(self.get_filter_internal_graphics_no()).perform()
+
+    def input_filter_ram(self):
+        action = ActionChains(self.driver)
+        action.move_to_element(self.get_filter_ram()).perform()
+        action.click(self.get_filter_ram()).perform()
+        action.click(self.get_filter_ram_ddr4()).click(self.get_filter_ram_ddr5()).perform()
 
     def click_button_submit(self):
         action = ActionChains(self.driver)
         action.move_to_element(self.get_button_submit()).click(self.get_button_submit()).perform()
-        # self.get_button_submit().click()
+
+    def click_button_reset(self):
+        action = ActionChains(self.driver)
+        action.move_to_element(self.get_button_reset()).click(self.get_button_reset()).perform()
 
     # Methods
     def set_price(self):
