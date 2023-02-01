@@ -58,6 +58,10 @@ class CatalogPage(BasePage):
     # на старнице каталога sku появляются только после наведения курсора
     product1_code = ''
     product2_code = ''
+    # TODO подумать, нужны ли эти локаторы
+    service_rating_product1 = '//div[@data-id="product"][1]//a[contains(@class,"catalog-product__service-rating")]'
+    service_rating_product2 = '//div[@data-id="product"][2]//a[contains(@class,"catalog-product__service-rating")]'
+
 
     # Getters
     def get_filter_price(self):
@@ -132,6 +136,54 @@ class CatalogPage(BasePage):
         return WebDriverWait(self.driver, self.wait_time).until(
             EC.element_to_be_clickable((By.XPATH, self.button_reset)))
 
+    def get_button_product1_compare(self):
+        return WebDriverWait(self.driver, self.wait_time).until(
+            EC.element_to_be_clickable((By.XPATH, self.button_product1_compare)))
+
+    def get_button_product2_compare(self):
+        return WebDriverWait(self.driver, self.wait_time).until(
+            EC.element_to_be_clickable((By.XPATH, self.button_product2_compare)))
+
+    def get_link_product1(self):
+        return WebDriverWait(self.driver, self.wait_time).until(
+            EC.presence_of_element_located((By.XPATH, self.link_product1))).get_attribute('href')
+
+    def get_link_product2(self):
+        return WebDriverWait(self.driver, self.wait_time).until(
+            EC.presence_of_element_located((By.XPATH, self.link_product2))).get_attribute('href')
+
+    def get_button_product1_buy(self):
+        return WebDriverWait(self.driver, self.wait_time).until(
+            EC.element_to_be_clickable((By.XPATH, self.button_product1_buy)))
+
+    def get_button_product2_buy(self):
+        return WebDriverWait(self.driver, self.wait_time).until(
+            EC.element_to_be_clickable((By.XPATH, self.button_product2_buy)))
+
+    def get_name_product1(self):
+        return WebDriverWait(self.driver, self.wait_time).until(
+            EC.element_to_be_clickable((By.XPATH, self.name_product1))).text
+
+    def get_name_product2(self):
+        return WebDriverWait(self.driver, self.wait_time).until(
+            EC.element_to_be_clickable((By.XPATH, self.name_product2))).text
+
+    def get_price_product1(self):
+        return WebDriverWait(self.driver, self.wait_time).until(
+            EC.element_to_be_clickable((By.XPATH, self.price_product1))).text
+
+    def get_price_product2(self):
+        return WebDriverWait(self.driver, self.wait_time).until(
+            EC.element_to_be_clickable((By.XPATH, self.price_product2))).text
+
+    def get_service_rating_product1(self):
+        return WebDriverWait(self.driver, self.wait_time).until(
+            EC.element_to_be_clickable((By.XPATH, self.service_rating_product1))).text
+
+    def get_service_rating_product2(self):
+        return WebDriverWait(self.driver, self.wait_time).until(
+            EC.element_to_be_clickable((By.XPATH, self.service_rating_product2))).text
+
     # Actions
 
     # TODO может объединить фильрацию по цене и добавить ввод значений "снаружи"?
@@ -159,7 +211,7 @@ class CatalogPage(BasePage):
         elif intel:
             action.click(self.get_filter_brand_intel()).perform()
 
-    def input_filter_cores(self, cores_4=False, cores_6=False, cores_8=False):
+    def input_filter_cores(self, cores_4 = False, cores_6 = False, cores_8 = False):
         action = ActionChains(self.driver)
         action.move_to_element(self.get_filter_cores()).perform()
         # почему-то заработало только после разделения перехода и клика на фильтр с количеством ядер
@@ -179,7 +231,7 @@ class CatalogPage(BasePage):
         elif cores_8:
             action.click(self.get_filter_cores_8()).perform()
 
-    # здесь странная логика, так как на сайте вместо радиобатона использован чекбокс
+    # здесь странная логика, так как на сайте вместо радиобатона использован чекбокс при выборе двух элементов
     def input_filter_internal_graphics(self, yes=False, no=False):
         action = ActionChains(self.driver)
         action.move_to_element(self.get_filter_internal_graphics()).perform()
@@ -191,11 +243,28 @@ class CatalogPage(BasePage):
         elif no:
             action.click(self.get_filter_internal_graphics_no()).perform()
 
-    def input_filter_ram(self):
+    def input_filter_ram(self, ddr4=False, ddr5=False):
         action = ActionChains(self.driver)
         action.move_to_element(self.get_filter_ram()).perform()
         action.click(self.get_filter_ram()).perform()
-        action.click(self.get_filter_ram_ddr4()).click(self.get_filter_ram_ddr5()).perform()
+        if ddr4 and ddr5:
+            action.click(self.get_filter_ram_ddr4()).click(self.get_filter_ram_ddr5()).perform()
+        elif ddr4:
+            action.click(self.get_filter_ram_ddr4()).perform()
+        elif ddr5:
+            action.click(self.get_filter_ram_ddr5()).perform()
+
+    def click_button_product1_compare(self):
+        self.get_button_product1_compare().click()
+
+    def click_button_product2_compare(self):
+        self.get_button_product2_compare().click()
+
+    def click_button_product1_buy(self):
+        self.get_button_product1_buy().click()
+
+    def click_button_product2_buy(self):
+        self.get_button_product2_buy().click()
 
     def click_button_submit(self):
         action = ActionChains(self.driver)
@@ -204,6 +273,8 @@ class CatalogPage(BasePage):
     def click_button_reset(self):
         action = ActionChains(self.driver)
         action.move_to_element(self.get_button_reset()).click(self.get_button_reset()).perform()
+
+
 
     # Methods
     def set_price(self):

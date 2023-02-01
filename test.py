@@ -14,7 +14,7 @@ from pages.base_page import BasePage
 
 login = 'gamag25045@ekcsoft.com'
 password = 'gamag25045'
-
+cores = [1, 1, 1]
 
 def test_test():
     link = "https://www.dns-shop.ru/"
@@ -25,10 +25,14 @@ def test_test():
     mp.log_in(login, password)
     mp.go_to_cpus()
     cp = CatalogPage(driver)
-    # cp.input_filter_cores(cores_6=1, cores_4=1)
+    cp.click_button_product2_buy()
+    cp.go_to_cart()
+    # cp.click_button_product1_compare()
+    # cp.click_button_product2_compare()
+    time.sleep(5)
+    # cp.input_filter_cores(*cores)
     # cp.input_filter_brand(amd=True, intel=True)
-    cp.input_filter_internal_graphics(1, 0)
-    cp.click_button_submit()
-    time.sleep(5)
+    # cp.input_filter_internal_graphics(1, 0)
+    # cp.click_button_submit()
+
     # cp.click_button_reset()
-    time.sleep(5)
