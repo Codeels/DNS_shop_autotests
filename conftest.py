@@ -2,13 +2,15 @@ import pytest as pytest
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 
-# TODO можно добавить фикстуру для очистки корзины и сравнений
-# @pytest.fixture(scope="function")
-def browser():
+
+@pytest.fixture(scope="function")
+def driver():
     print("\nbrowser open")
     link = "https://www.dns-shop.ru/"
     driver = webdriver.Chrome(service=Service("DNS_shop\\chromedriver.exe"))
     driver.get(link)
     driver.maximize_window()
-    yield
+    yield driver
+    driver.quit()
     print("\nbrowser close")
+

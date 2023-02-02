@@ -18,11 +18,14 @@ class CartPage(BasePage):
         self.wait_time = 15
 
     # Locators
+    button_delete_product = '//button[@class="menu-control-button remove-button"]/p'
+    button_delete_products = '//div[@class="mass-selection__delete-btn"]'
     button_cart = "//div[@class='cart-button']"
     name_product = "//div[@class='cart-items__product-name']//a"
     price_product = '//div[@class="summary-header__sum"]//span'
     sku_product = '//div[@class="cart-items__product-code"]'
     button_checkout = '//div[@class="cart-tab-total-amount"]//span[@class="base-ui-button-v2__text"]'
+    message_empty_cart = '//div[@class="empty-message"]'
 
     # Getters
     def get_name_product(self):
@@ -41,10 +44,36 @@ class CartPage(BasePage):
         return WebDriverWait(self.driver, self.wait_time).until(
             EC.element_to_be_clickable((By.XPATH, self.button_checkout)))
 
+    def get_button_delete_product(self):
+        return WebDriverWait(self.driver, self.wait_time).until(
+            EC.element_to_be_clickable((By.XPATH, self.button_delete_product)))
+
+    def get_button_delete_products(self):
+        return WebDriverWait(self.driver, self.wait_time).until(
+            EC.element_to_be_clickable((By.XPATH, self.button_delete_products)))
+
+    def get_message_empty_cart(self):
+        return WebDriverWait(self.driver, self.wait_time).until(
+            EC.element_to_be_clickable((By.XPATH, self.message_empty_cart)))
+
     # Actions
     def click_button_checkout(self):
         self.get_button_checkout().click()
 
+    def click_button_delete_product(self):
+        self.get_button_delete_product().click()
+
+    def click_button_delete_products(self):
+        self.get_button_delete_products().click()
+
     # Methods
+    def delete_products_in_cart(self):
+        if self.element_is_present(self.message_empty_cart):
+            pass
+        elif not self.element_is_present('//div[@class="cart-items__product"][2]'):
+            self.click_button_delete_product()
+        elif self.element_is_present('//div[@class="cart-items__product"][2]'):
+            self.click_button_delete_products()
+
     # TODO добавить методы для сравнения названия, цены, артикула
 

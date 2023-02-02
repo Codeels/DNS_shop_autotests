@@ -1,6 +1,7 @@
 import datetime
 import time
 
+from selenium.common import NoSuchElementException
 from selenium.webdriver import ActionChains
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -134,10 +135,13 @@ class BasePage():
         self.driver.refresh()
 
     def go_to_cart(self):
-        self.click_button_cart()
+        self.driver.get('https://www.dns-shop.ru/cart/')
 
     def go_to_comparison_page(self):
-        self.click_button_compare()
+        self.driver.get('https://www.dns-shop.ru/compare/')
+
+    def go_to_main_page(self):
+        self.driver.get('https://www.dns-shop.ru/')
 
     def check_name(self, name1, name2):
         assert name1 == name2, "Product names are not the same"
@@ -154,5 +158,12 @@ class BasePage():
     def check_skus(self, sku1, sku2):
         assert sku1 == sku2, "Product skus are not the same"
 
-# TODO надо ли сюда добавить assert для сравнения цен, названий и т.д. на разных страницах?
+    def element_is_present(self, locator):
+        try:
+            self.driver.find_element(By.XPATH, locator)
+        except NoSuchElementException:
+            return False
+        return True
 
+
+# TODO надо ли сюда добавить assert для сравнения цен, названий и т.д. на разных страницах?

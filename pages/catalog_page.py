@@ -225,14 +225,6 @@ class CatalogPage(BasePage):
         action.click(self.get_filter_price_min()).send_keys(price_min).perform()
         action.click(self.get_filter_price_max()).send_keys(price_max).perform()
 
-        # self.get_filter_price_min().click().send_keys("1500")
-
-    # def input_filter_price_max(self, price_max):
-    #     action = ActionChains(self.driver)
-    #     # target = self.driver.find_element(By.XPATH, self.filter_price_max)
-    #     action.click(self.get_filter_price_max()).send_keys(price_max).perform()
-    #     # self.get_filter_price_max().click().send_keys("15000")
-
     def input_filter_brand(self, amd=False, intel=False):
         action = ActionChains(self.driver)
         action.move_to_element(self.get_filter_brand()).perform()

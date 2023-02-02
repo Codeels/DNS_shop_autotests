@@ -29,6 +29,7 @@ class ComparisonPage(BasePage):
     name_product2 = "//div[@class='products-slider__item'][2]//div[@class='products-slider__product-name']"
     price_product1 = '//div[@class="products-slider__item"][1]//div[@class="product-min-price__current"]'
     price_product2 = '//div[@class="products-slider__item"][2]//div[@class="product-min-price__current"]'
+    button_delete_products = '//div[@class="clear-app"]/span[2]'
 
     # Getters
     def get_rating_product1(self):
@@ -63,6 +64,10 @@ class ComparisonPage(BasePage):
         return WebDriverWait(self.driver, self.wait_time).until(
             EC.element_to_be_clickable((By.XPATH, self.button_product2_buy)))
 
+    def get_button_delete_products_in_comparison(self):
+        return WebDriverWait(self.driver, self.wait_time).until(
+            EC.element_to_be_clickable((By.XPATH, self.button_delete_products)))
+
     # Actions
 
     def click_button_product1_buy(self):
@@ -71,6 +76,15 @@ class ComparisonPage(BasePage):
     def click_button_product2_buy(self):
         self.get_button_product2_buy().click()
 
+    def click_button_delete_products_in_comparison(self):
+        self.get_button_delete_products_in_comparison().click()
+
     # Methods
+    def delete_products_in_comparison(self):
+        if self.element_is_present(self.button_delete_products):
+            self.click_button_delete_products_in_comparison()
+        else:
+            pass
+
     # TODO написать методы для сравнения товаров между собой
     # TODO написать проверки на то, что правильные товары попали в сравнение
