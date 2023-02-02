@@ -2,7 +2,7 @@ import pytest as pytest
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 
-
+# TODO можно добавить фикстуру для очистки корзины и сравнений
 # @pytest.fixture(scope="function")
 def browser():
     print("\nbrowser open")

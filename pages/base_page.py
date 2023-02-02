@@ -32,7 +32,7 @@ class BasePage():
 
     # Getters
     def get_button_login_header(self):
-        return WebDriverWait(self.driver, self.wait_time).until(
+        return WebDriverWait(self.driver, 25).until(
             EC.visibility_of_element_located((By.XPATH, self.button_login_header)))
 
     def get_button_login(self):
@@ -121,12 +121,12 @@ class BasePage():
 
     def log_in(self, login, password):
         action = ActionChains(self.driver)
-        target = self.driver.find_element(By.XPATH, self.button_login_header)
-        action.move_to_element(target).perform()
-        # action.move_to_element(self.get_button_login_header()).perform()
-        target = self.driver.find_element(By.XPATH, self.button_login)
-        action.move_to_element(target).click(target).perform()
-        # action.move_to_element(self.get_button_login()).click().perform()
+        # target = self.driver.find_element(By.XPATH, self.button_login_header)
+        # action.move_to_element(target).perform()
+        action.move_to_element(self.get_button_login_header()).perform()
+        # target = self.driver.find_element(By.XPATH, self.button_login)
+        # action.move_to_element(target).click(target).perform()
+        action.move_to_element(self.get_button_login()).click().perform()
         self.click_button_enter_with_password()
         self.input_field_email(login)
         self.input_field_password(password)
@@ -138,6 +138,21 @@ class BasePage():
 
     def go_to_comparison_page(self):
         self.click_button_compare()
+
+    def check_name(self, name1, name2):
+        assert name1 == name2, "Product names are not the same"
+
+    def check_price(self, price1, price2):
+        assert price1 == price2, "Product prices are not the same"
+
+    def check_service_rating(self, service_rating1, service_rating2):
+        assert service_rating1 == service_rating2, "Product service ratings are not the same"
+
+    def check_links(self, link1, link2):
+        assert link1 == link2, "Product links are not the same"
+
+    def check_skus(self, sku1, sku2):
+        assert sku1 == sku2, "Product skus are not the same"
 
 # TODO надо ли сюда добавить assert для сравнения цен, названий и т.д. на разных страницах?
 

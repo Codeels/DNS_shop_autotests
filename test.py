@@ -22,6 +22,7 @@ ram = [1, 1]
 
 def test_test():
     link = "https://www.dns-shop.ru/"
+    link2 = 'https://www.dns-shop.ru/catalog/17a899cd16404e77/processory/'
     driver = webdriver.Chrome(service=Service("DNS_shop\\chromedriver.exe"))
     driver.get(link)
     driver.maximize_window()
@@ -29,12 +30,11 @@ def test_test():
     mp.log_in(login, password)
     mp.go_to_cpus()
     cp = CatalogPage(driver)
+    cp.set_stock()
     cp.set_price(*price)
     cp.set_brand(*brand)
     cp.set_cores(*cores)
     cp.set_internal_graphics(*internal_graphics)
-    cp.set_ram(*ram)
+    # cp.set_ram(*ram)
     cp.click_button_submit()
-
-    time.sleep(20)
 

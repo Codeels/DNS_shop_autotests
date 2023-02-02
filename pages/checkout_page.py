@@ -26,7 +26,8 @@ class CheckoutPage(BasePage):
     field_password_checkp = '//div[@class="form-entry-with-password__password"]//input'
     button_enter_checkp = '//div[@class="form-entry-with-password__main-button"]//button'
     button_confirm_order_checkp = '//div[@class="apply-button checkout-container__apply"]//button'
-    # TODO добавить локаторов для заполнения телефона, для кнопки подтвердить зака, и для проверки номера
+
+    # TODO добавить локаторов для заполнения телефона, для кнопки подтвердить заказ, и для проверки номера
 
 
     # Getters
