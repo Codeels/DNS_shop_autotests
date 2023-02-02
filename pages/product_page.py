@@ -38,6 +38,8 @@ class ProductPage(BasePage):
 
     # Actions
 
-
     # Methods
+    def compare_price_in_product_page(self, product_in_catalog):
+        assert self.get_price_product() == product_in_catalog, "Price do not match"
 
+    # TODO скомпоновать все ассерты в один метод

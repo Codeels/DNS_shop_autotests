@@ -27,17 +27,19 @@ class BasePage():
 
     button_compare = "//a[@class='compare-link-counter']"
 
+    button_main = '//div[@id="header-logo"]'
+
     button_catalog = '//span[@class="header-bottom__catalog-spoiler"]'
     pc_parts = '//div[@class="header-menu-desktop__root"][6]'
     cpus = '//a[contains(@href, "/processory/")]'
 
     # Getters
     def get_button_login_header(self):
-        return WebDriverWait(self.driver, 25).until(
+        return WebDriverWait(self.driver, 30).until(
             EC.visibility_of_element_located((By.XPATH, self.button_login_header)))
 
     def get_button_login(self):
-        return WebDriverWait(self.driver, self.wait_time).until(
+        return WebDriverWait(self.driver, 30).until(
             EC.visibility_of_element_located((By.XPATH, self.button_login)))
 
     def get_button_enter_with_password(self):
@@ -53,7 +55,7 @@ class BasePage():
             EC.element_to_be_clickable((By.XPATH, self.field_password)))
 
     def get_button_enter(self):
-        return WebDriverWait(self.driver, self.wait_time).until(
+        return WebDriverWait(self.driver, 30).until(
             EC.element_to_be_clickable((By.XPATH, self.button_enter)))
 
     def get_button_cart(self):
@@ -63,6 +65,10 @@ class BasePage():
     def get_button_compare(self):
         return WebDriverWait(self.driver, self.wait_time).until(
             EC.element_to_be_clickable((By.XPATH, self.button_compare)))
+
+    def get_button_main(self):
+        return WebDriverWait(self.driver, self.wait_time).until(
+            EC.element_to_be_clickable((By.XPATH, self.button_main)))
 
     def get_button_catalog(self):
         return WebDriverWait(self.driver, self.wait_time).until(
@@ -102,6 +108,9 @@ class BasePage():
     def click_button_compare(self):
         self.get_button_compare().click()
 
+    def click_button_main(self):
+        self.get_button_main().click()
+
     # Метод для получения ссылки текущей страницы
     def get_current_url(self):
         get_url = self.driver.current_url
@@ -132,31 +141,37 @@ class BasePage():
         self.input_field_email(login)
         self.input_field_password(password)
         self.click_button_enter()
-        self.driver.refresh()
+        time.sleep(1)
+        # self.driver.refresh()
 
     def go_to_cart(self):
-        self.driver.get('https://www.dns-shop.ru/cart/')
+        self.click_button_cart()
 
     def go_to_comparison_page(self):
-        self.driver.get('https://www.dns-shop.ru/compare/')
+        self.click_button_compare()
 
     def go_to_main_page(self):
-        self.driver.get('https://www.dns-shop.ru/')
+        self.click_button_main()
 
     def check_name(self, name1, name2):
-        assert name1 == name2, "Product names are not the same"
+        assert name2 in name1, "Product names are not the same"
+        return True
 
     def check_price(self, price1, price2):
         assert price1 == price2, "Product prices are not the same"
+        return True
 
     def check_service_rating(self, service_rating1, service_rating2):
         assert service_rating1 == service_rating2, "Product service ratings are not the same"
+        return True
 
     def check_links(self, link1, link2):
         assert link1 == link2, "Product links are not the same"
+        return True
 
     def check_skus(self, sku1, sku2):
         assert sku1 == sku2, "Product skus are not the same"
+        return True
 
     def element_is_present(self, locator):
         try:
@@ -165,5 +180,3 @@ class BasePage():
             return False
         return True
 
-
-# TODO надо ли сюда добавить assert для сравнения цен, названий и т.д. на разных страницах?

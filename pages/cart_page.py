@@ -21,6 +21,7 @@ class CartPage(BasePage):
     button_delete_product = '//button[@class="menu-control-button remove-button"]/p'
     button_delete_products = '//div[@class="mass-selection__delete-btn"]'
     button_cart = "//div[@class='cart-button']"
+    link_product = '//div[@class="cart-items__product-info"]//a'
     name_product = "//div[@class='cart-items__product-name']//a"
     price_product = '//div[@class="summary-header__sum"]//span'
     sku_product = '//div[@class="cart-items__product-code"]'
@@ -39,6 +40,10 @@ class CartPage(BasePage):
     def get_sku_product(self):
         return WebDriverWait(self.driver, self.wait_time).until(
             EC.visibility_of_element_located((By.XPATH, self.sku_product))).text
+
+    def get_link_product(self):
+        return WebDriverWait(self.driver, self.wait_time).until(
+            EC.visibility_of_element_located((By.XPATH, self.link_product))).get_attribute('href')
 
     def get_button_checkout(self):
         return WebDriverWait(self.driver, self.wait_time).until(
@@ -75,5 +80,4 @@ class CartPage(BasePage):
         elif self.element_is_present('//div[@class="cart-items__product"][2]'):
             self.click_button_delete_products()
 
-    # TODO добавить методы для сравнения названия, цены, артикула
 

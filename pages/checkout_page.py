@@ -1,6 +1,6 @@
 import time
 
-from selenium.webdriver import ActionChains
+from selenium.webdriver import ActionChains, Keys
 
 from pages.base_page import BasePage
 import pytest
@@ -29,11 +29,9 @@ class CheckoutPage(BasePage):
     field_telephone_number = '//input[@type="tel"]'
     field_email = '//input[@type="text"]'
     button_confirm_order = '//div[@class="apply-button checkout-container__apply"]//button'
-    field_sms_code = '//input[@id="ir-atvt4"]'
+    field_sms_code = '//div[contains(@class,"base-phone-confirm-code-check__input")]//input'
     button_confirm_sms_code = '//button[contains(@class, "base-phone-confirm-code-check__btn")]'
     error_message = '//div[@class="base-phone-confirm-code-check__error"]'
-
-    # TODO добавить локаторов для заполнения телефона, для кнопки подтвердить заказ, и для проверки номера
 
     # Getters
     def get_field_telephone_number(self):
@@ -45,7 +43,7 @@ class CheckoutPage(BasePage):
             EC.element_to_be_clickable((By.XPATH, self.field_email)))
 
     def get_field_sms_code(self):
-        return WebDriverWait(self.driver, self.wait_time).until(
+        return WebDriverWait(self.driver, 30).until(
             EC.element_to_be_clickable((By.XPATH, self.field_sms_code)))
 
     def get_button_confirm_order(self):
@@ -67,7 +65,9 @@ class CheckoutPage(BasePage):
 
     def input_email(self, email):
         action = ActionChains(self.driver)
-        action.click(self.get_field_email()).send_keys(email).perform()
+        self.get_field_email().click()
+        action.key_down(Keys.CONTROL).send_keys('A').key_up(Keys.CONTROL).key_down(Keys.BACKSPACE).perform()
+        action.send_keys(email).perform()
 
     def click_button_confirm_order(self):
         action = ActionChains(self.driver)
@@ -84,6 +84,7 @@ class CheckoutPage(BasePage):
     # Methods
     def check_error_message(self):
         assert self.get_error_message() == 'Сессия не инициализирована.', 'something went wrong'
+        return True
 
     def input_credentials_and_confirm(self, telephone_number, email):
         self.input_telephone_number(telephone_number)

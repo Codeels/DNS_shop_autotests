@@ -287,7 +287,10 @@ class CatalogPage(BasePage):
         self.get_button_product2_compare().click()
 
     def click_button_product1_buy(self):
+        action = ActionChains(self.driver)
+        action.move_to_element(self.get_button_product1_buy()).perform()
         self.get_button_product1_buy().click()
+        time.sleep(1)
 
     def click_button_product2_buy(self):
         self.get_button_product2_buy().click()
@@ -296,6 +299,7 @@ class CatalogPage(BasePage):
     def click_button_submit(self):
         action = ActionChains(self.driver)
         action.move_to_element(self.get_button_submit()).click(self.get_button_submit()).perform()
+        time.sleep(1)
 
     def click_button_reset(self):
         action = ActionChains(self.driver)
