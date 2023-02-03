@@ -1,7 +1,8 @@
+Тесты предназначены для проверки сайта магазина электроники DNS
 
-Команда для запуска тестов: pytest -sv test.py
+**Команда для запуска тестов**: pytest -sv test.py
 
-Команда для установки пакетов из requirements: pip install -r requirements.txt
+**Команда для установки пакетов из requirements.txt**: pip install -r requirements.txt
 
 
 Шаги в тесте 1:
