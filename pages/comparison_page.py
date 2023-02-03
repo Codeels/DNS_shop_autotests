@@ -12,8 +12,6 @@ class ComparisonPage(BasePage):
         self.wait_time = 15
 
     # Locators
-
-    # страница сравнения товаров (compp = comparison page)
     rating_product1 = "//div[@class='compare-scoring__grades-grade'][2]//span[contains(@data-rating,'')][2]"
     rating_product2 = "//div[@class='compare-scoring__grades-grade'][1]//span[contains(@data-rating,'')][2]"
     button_product1_buy = '//div[@class="products-slider__item"][2]//div[@class="buy-button"]//button'
@@ -96,17 +94,8 @@ class ComparisonPage(BasePage):
             pass
 
     def choose_best_product(self):
-        print(self.get_price_product1())
-        print(self.get_price_product2())
-        print(self.get_rating_product1())
-        print(self.get_rating_product2())
-        # self.click_button_product1_buy()
         if self.get_price_product1() < self.get_price_product2():
             self.click_button_product1_buy()
         else:
             self.click_button_product2_buy()
-        #     if self.get_rating_product1() > self.get_rating_product2():
-        #         self.click_button_product1_buy()
-        # else:
-        #     self.click_button_product2_buy()
 

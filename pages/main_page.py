@@ -12,7 +12,6 @@ class MainPage(BasePage):
         self.wait_time = 15
 
     # Locators
-
     link_computer_parts = "//a//a[@href='/catalog/17aa522a16404e77/komplektuyushhie-dlya-pk/']"
     link_major_parts = "//a[@href='/catalog/88f4ff1d39dee00e/osnovnye-komplektuyushhie-dlya-pk/']"
     link_cpus = '//a[@href="/catalog/17a899cd16404e77/processory/"]'

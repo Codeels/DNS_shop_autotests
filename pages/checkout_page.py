@@ -13,7 +13,6 @@ class CheckoutPage(BasePage):
         self.wait_time = 15
 
     # Locators
-    # страница оформления заказа (checkp = checkout page)
     button_login_checkp = '//div[contains(@class,"base-login-button_tE_")]'
     button_enter_with_password = '//div[@class="block-other-login-methods__password-button"]'
     field_email_checkp = '//div[@class="form-entry-with-password__input"]//input'
