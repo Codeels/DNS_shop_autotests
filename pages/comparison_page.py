@@ -1,14 +1,7 @@
-import time
-
-from selenium.webdriver import ActionChains
-
 from pages.base_page import BasePage
-import pytest
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
 
 
 class ComparisonPage(BasePage):
@@ -21,14 +14,16 @@ class ComparisonPage(BasePage):
     # Locators
 
     # страница сравнения товаров (compp = comparison page)
-    rating_product1 = "//div[@class='compare-scoring__grades-grade'][1]//span[contains(@data-rating,'')][2]"
-    rating_product2 = "//div[@class='compare-scoring__grades-grade'][2]//span[contains(@data-rating,'')][2]"
-    button_product1_buy = "//div[@class='buy-button'][1]"
-    button_product2_buy = "//div[@class='buy-button'][2]"
-    name_product1 = "//div[@class='products-slider__item'][1]//div[@class='products-slider__product-name']"
-    name_product2 = "//div[@class='products-slider__item'][2]//div[@class='products-slider__product-name']"
-    price_product1 = '//div[@class="products-slider__item"][1]//div[@class="product-min-price__current"]'
-    price_product2 = '//div[@class="products-slider__item"][2]//div[@class="product-min-price__current"]'
+    rating_product1 = "//div[@class='compare-scoring__grades-grade'][2]//span[contains(@data-rating,'')][2]"
+    rating_product2 = "//div[@class='compare-scoring__grades-grade'][1]//span[contains(@data-rating,'')][2]"
+    button_product1_buy = '//div[@class="products-slider__item"][2]//div[@class="buy-button"]//button'
+    button_product2_buy = '//div[@class="products-slider__item"][1]//div[@class="buy-button"]//button'
+    name_product1 = "//div[@class='products-slider__item'][2]//div[@class='products-slider__product-name']"
+    name_product2 = "//div[@class='products-slider__item'][1]//div[@class='products-slider__product-name']"
+    price_product1 = '//div[@class="products-slider__item"][2]//div[@class="product-min-price__current"]'
+    price_product2 = '//div[@class="products-slider__item"][1]//div[@class="product-min-price__current"]'
+    link_product1 = '//div[@class="products-slider__item"][2]/div[2]/a'
+    link_product2 = '//div[@class="products-slider__item"][1]/div[2]/a'
     button_delete_products = '//div[@class="clear-app"]/span[2]'
 
     # Getters
@@ -49,12 +44,26 @@ class ComparisonPage(BasePage):
             EC.visibility_of_element_located((By.XPATH, self.name_product2))).text
 
     def get_price_product1(self):
-        return WebDriverWait(self.driver, self.wait_time).until(
+        text1 = WebDriverWait(self.driver, self.wait_time).until(
             EC.visibility_of_element_located((By.XPATH, self.price_product1))).text
+        text1 = text1.replace(' ', '').split('₽')
+        price = int(text1[0])
+        return price
 
     def get_price_product2(self):
-        return WebDriverWait(self.driver, self.wait_time).until(
+        text2 = WebDriverWait(self.driver, self.wait_time).until(
             EC.visibility_of_element_located((By.XPATH, self.price_product2))).text
+        text2 = text2.replace(' ', '').split('₽')
+        price = int(text2[0])
+        return price
+
+    def get_link_product1(self):
+        return WebDriverWait(self.driver, self.wait_time).until(
+            EC.visibility_of_element_located((By.XPATH, self.link_product1))).get_attribute('href')
+
+    def get_link_product2(self):
+        return WebDriverWait(self.driver, self.wait_time).until(
+            EC.visibility_of_element_located((By.XPATH, self.link_product2))).get_attribute('href')
 
     def get_button_product1_buy(self):
         return WebDriverWait(self.driver, self.wait_time).until(
@@ -86,5 +95,18 @@ class ComparisonPage(BasePage):
         else:
             pass
 
-    # TODO написать методы для сравнения товаров между собой
-    # TODO написать проверки на то, что правильные товары попали в сравнение
+    def choose_best_product(self):
+        print(self.get_price_product1())
+        print(self.get_price_product2())
+        print(self.get_rating_product1())
+        print(self.get_rating_product2())
+        # self.click_button_product1_buy()
+        if self.get_price_product1() < self.get_price_product2():
+            self.click_button_product1_buy()
+        else:
+            self.click_button_product2_buy()
+        #     if self.get_rating_product1() > self.get_rating_product2():
+        #         self.click_button_product1_buy()
+        # else:
+        #     self.click_button_product2_buy()
+

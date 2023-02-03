@@ -1,14 +1,7 @@
-import time
-
-from selenium.webdriver import ActionChains
-
 from pages.base_page import BasePage
-import pytest
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
 
 
 class MainPage(BasePage):

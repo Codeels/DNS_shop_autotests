@@ -3,7 +3,6 @@ import time
 
 from selenium.common import NoSuchElementException
 from selenium.webdriver import ActionChains
-from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -16,8 +15,9 @@ class BasePage():
         self.wait_time = 15
 
     # Locators
-    button_login_header = '//div[@class="header-bottom__user-menu"]'
-    button_login = '//button[contains(@class, "base-ui-button-v2")]'
+    button_login_header_main = '//div[@class="header-bottom__user-menu"]'
+    button_login_main = '//button[contains(@class, "base-ui-button-v2")]'
+    button_login_checkout = '//a[@class="base-login-button__link_LYc"]/div[2]'
     button_enter_with_password = '//div[@class="block-other-login-methods__password-button"]'
     field_email = '//div[@class="form-entry-with-password__input"]//input'
     field_password = '//div[@class="form-entry-with-password__password"]//input'
@@ -34,13 +34,17 @@ class BasePage():
     cpus = '//a[contains(@href, "/processory/")]'
 
     # Getters
-    def get_button_login_header(self):
+    def get_button_login_header_main(self):
         return WebDriverWait(self.driver, 30).until(
-            EC.visibility_of_element_located((By.XPATH, self.button_login_header)))
+            EC.visibility_of_element_located((By.XPATH, self.button_login_header_main)))
 
-    def get_button_login(self):
+    def get_button_login_main(self):
         return WebDriverWait(self.driver, 30).until(
-            EC.visibility_of_element_located((By.XPATH, self.button_login)))
+            EC.visibility_of_element_located((By.XPATH, self.button_login_main)))
+
+    def get_button_login_checkout(self):
+        return WebDriverWait(self.driver, 30).until(
+            EC.visibility_of_element_located((By.XPATH, self.button_login_checkout)))
 
     def get_button_enter_with_password(self):
         return WebDriverWait(self.driver, self.wait_time).until(
@@ -84,11 +88,14 @@ class BasePage():
 
     # Actions
 
-    def click_button_login_header(self):
-        self.get_button_login_header().click()
+    def click_button_login_header_main(self):
+        self.get_button_login_header_main().click()
 
-    def click_button_login(self):
-        self.get_button_login().click()
+    def click_button_login_main(self):
+        self.get_button_login_main().click()
+
+    def click_button_login_checkout(self):
+        self.get_button_login_checkout().click()
 
     def click_button_enter_with_password(self):
         self.get_button_enter_with_password().click()
@@ -129,17 +136,21 @@ class BasePage():
         assert get_url == url
         print("URL OK")
 
-    def log_in(self, login, password):
+    def log_in(self, login, password, main=False, checkout=False):
         action = ActionChains(self.driver)
         # target = self.driver.find_element(By.XPATH, self.button_login_header)
         # action.move_to_element(target).perform()
-        action.move_to_element(self.get_button_login_header()).perform()
-        # target = self.driver.find_element(By.XPATH, self.button_login)
-        # action.move_to_element(target).click(target).perform()
-        action.move_to_element(self.get_button_login()).click().perform()
+        if main:
+            action.move_to_element(self.get_button_login_header_main()).perform()
+            # target = self.driver.find_element(By.XPATH, self.button_login)
+            # action.move_to_element(target).click(target).perform()
+            action.move_to_element(self.get_button_login_main()).click().perform()
+        else:
+            self.get_button_login_checkout().click()
         self.click_button_enter_with_password()
         self.input_field_email(login)
         self.input_field_password(password)
+        time.sleep(1)
         self.click_button_enter()
         time.sleep(1)
         # self.driver.refresh()

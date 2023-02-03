@@ -1,14 +1,9 @@
 import time
-
 from selenium.webdriver import ActionChains
-
 from pages.base_page import BasePage
-import pytest
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
 
 
 class CatalogPage(BasePage):
@@ -60,12 +55,11 @@ class CatalogPage(BasePage):
     name_product2 = '//div[@data-id="product"][2]//a[@class="catalog-product__name ui-link ui-link_black"]//span'
     price_product1 = '//div[@data-id="product"][1]//div[@class="product-buy__price"]'
     price_product2 = '//div[@data-id="product"][2]//div[@class="product-buy__price"]'
-    # TODO подумать, нужны ли эти локаторы
     service_rating_product1 = '//div[@data-id="product"][1]//a[contains(@class,"catalog-product__service-rating")]'
     service_rating_product2 = '//div[@data-id="product"][2]//a[contains(@class,"catalog-product__service-rating")]'
 
     # Getters
-    # TODO добавить фильтры для наличия товара
+
     def get_filter_stock(self):
         return WebDriverWait(self.driver, self.wait_time).until(
             EC.element_to_be_clickable((By.XPATH, self.filter_stock)))
@@ -191,12 +185,18 @@ class CatalogPage(BasePage):
             EC.element_to_be_clickable((By.XPATH, self.name_product2))).text
 
     def get_price_product1(self):
-        return WebDriverWait(self.driver, self.wait_time).until(
+        text1 = WebDriverWait(self.driver, self.wait_time).until(
             EC.element_to_be_clickable((By.XPATH, self.price_product1))).text
+        text1 = text1.replace(' ', '').split('₽')
+        price = int(text1[0])
+        return price
 
     def get_price_product2(self):
-        return WebDriverWait(self.driver, self.wait_time).until(
+        text2 = WebDriverWait(self.driver, self.wait_time).until(
             EC.element_to_be_clickable((By.XPATH, self.price_product2))).text
+        text2 = text2.replace(' ', '').split('₽')
+        price = int(text2[0])
+        return price
 
     def get_service_rating_product1(self):
         return WebDriverWait(self.driver, self.wait_time).until(
@@ -208,7 +208,6 @@ class CatalogPage(BasePage):
 
     # Actions
 
-    # TODO может объединить фильрацию по цене и добавить ввод значений "снаружи"?
     def input_filter_stock(self):
         action = ActionChains(self.driver)
         action.move_to_element(self.get_filter_stock()).perform()
@@ -295,7 +294,6 @@ class CatalogPage(BasePage):
     def click_button_product2_buy(self):
         self.get_button_product2_buy().click()
 
-    # TODO может быть стоит переместить в методы из actions
     def click_button_submit(self):
         action = ActionChains(self.driver)
         action.move_to_element(self.get_button_submit()).click(self.get_button_submit()).perform()
