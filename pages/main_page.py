@@ -1,3 +1,5 @@
+import time
+
 from pages.base_page import BasePage
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
@@ -47,3 +49,4 @@ class MainPage(BasePage):
         self.click_computer_parts_link()
         self.click_major_parts_link()
         self.click_link_cpus()
+        time.sleep(2)

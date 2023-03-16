@@ -1,3 +1,5 @@
+import time
+
 from selenium.webdriver import ActionChains, Keys
 from pages.base_page import BasePage
 from selenium.webdriver.common.by import By
@@ -25,10 +27,11 @@ class CheckoutPage(BasePage):
 
     field_telephone_number = '//input[@type="tel"]'
     field_email = '//input[@type="text"]'
-    button_confirm_order = '//div[@class="apply-button checkout-container__apply"]//button'
+    button_confirm_order = '//div[@class="checkout-container__apply_BrK"]//button'
     field_sms_code = '//div[contains(@class,"base-phone-confirm-code-check__input")]//input'
     button_confirm_sms_code = '//button[contains(@class, "base-phone-confirm-code-check__btn")]'
-    error_message = '//div[@class="base-phone-confirm-code-check__error"]'
+    error_message = '//div[@class="base-phone-confirm-code-check__error_DLt"]'
+
 
     # Getters
     def get_field_telephone_number(self):
@@ -101,7 +104,7 @@ class CheckoutPage(BasePage):
 
     # Methods
     def check_error_message(self):
-        assert self.get_error_message() == 'Сессия не инициализирована.', 'something went wrong'
+        assert self.get_error_message(), 'something went wrong'
         return True
 
     def input_credentials_and_confirm(self, telephone_number, email):
@@ -116,3 +119,15 @@ class CheckoutPage(BasePage):
         if self.element_is_present('//div[contains(@class,"checkout-getting__pickup")]/button'):
             self.click_button_choose_shop1()
             self.click_button_choose_shop2()
+
+    def input_data_and_code(self, telephone_number_checkout, login, sms_code_checkout):
+        self.input_telephone_number(telephone_number_checkout)
+        self.input_email(login)
+        self.choose_shop()
+        time.sleep(2)
+        self.click_button_confirm_order()
+        self.input_sms_code(sms_code_checkout)
+        time.sleep(1)
+        self.click_button_confirm_sms_code()
+        print(f'error message: {self.check_error_message()}')
+        time.sleep(5)

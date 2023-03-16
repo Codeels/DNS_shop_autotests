@@ -1,3 +1,5 @@
+import time
+
 from pages.base_page import BasePage
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
@@ -98,4 +100,19 @@ class ComparisonPage(BasePage):
             self.click_button_product1_buy()
         else:
             self.click_button_product2_buy()
+        time.sleep(2)
+
+    def check_name_price_link(self,
+                              name1_in_catalog, name1_in_comparison,
+                              price1_in_catalog, price1_in_comparison,
+                              link1_in_catalog, link1_in_comparison,
+                              name2_in_catalog, name2_in_comparison,
+                              price2_in_catalog, price2_in_comparison,
+                              link2_in_catalog, link2_in_comparison):
+        print(f'name1:{self.check_name(name1_in_catalog, name1_in_comparison)}')
+        print(f'price1:{self.check_price(price1_in_catalog, price1_in_comparison)}')
+        print(f'link1:{self.check_links(link1_in_catalog, link1_in_comparison)}')
+        print(f'name2:{self.check_name(name2_in_catalog, name2_in_comparison)}')
+        print(f'price2:{self.check_price(price2_in_catalog, price2_in_comparison)}')
+        print(f'link2:{self.check_links(link2_in_catalog, link2_in_comparison)}')
 

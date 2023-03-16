@@ -1,3 +1,5 @@
+import time
+
 from pages.base_page import BasePage
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
@@ -43,5 +45,13 @@ class ProductPage(BasePage):
     # Actions
     def click_button_buy(self):
         self.get_button_buy().click()
+        time.sleep(2)
 
     # Methods
+    def check_name_price_link(self,
+                              name_in_catalog, name_in_product,
+                              price_in_catalog, price_in_product,
+                              link_in_catalog, link_in_product):
+        print(f'name:{self.check_name(name_in_catalog, name_in_product)}')
+        print(f'price:{self.check_price(price_in_catalog, price_in_product)}')
+        print(f'link:{self.check_links(link_in_catalog, link_in_product)}')

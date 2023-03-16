@@ -138,12 +138,8 @@ class BasePage():
 
     def log_in(self, login, password, main=False, checkout=False):
         action = ActionChains(self.driver)
-        # target = self.driver.find_element(By.XPATH, self.button_login_header)
-        # action.move_to_element(target).perform()
         if main:
             action.move_to_element(self.get_button_login_header_main()).perform()
-            # target = self.driver.find_element(By.XPATH, self.button_login)
-            # action.move_to_element(target).click(target).perform()
             action.move_to_element(self.get_button_login_main()).click().perform()
         else:
             self.get_button_login_checkout().click()
@@ -153,13 +149,14 @@ class BasePage():
         time.sleep(1)
         self.click_button_enter()
         time.sleep(1)
-        # self.driver.refresh()
 
     def go_to_cart(self):
         self.click_button_cart()
+        time.sleep(2)
 
     def go_to_comparison_page(self):
         self.click_button_compare()
+        time.sleep(2)
 
     def go_to_main_page(self):
         self.click_button_main()
@@ -190,4 +187,13 @@ class BasePage():
         except NoSuchElementException:
             return False
         return True
+
+    def clear_cart_and_comparison(self, driver, CartPage, ComparisonPage):
+        self.go_to_cart()
+        cart_page = CartPage(driver)
+        cart_page.delete_products_in_cart()
+        cart_page.go_to_comparison_page()
+        comparison_page = ComparisonPage(driver)
+        comparison_page.delete_products_in_comparison()
+        comparison_page.go_to_main_page()
 
