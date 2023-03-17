@@ -1,9 +1,14 @@
 import time
+import allure
+
 from selenium.webdriver import ActionChains
 from pages.base_page import BasePage
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from pages.cart_page import CartPage
+from pages.comparison_page import ComparisonPage
+from pages.product_page import ProductPage
 
 
 class CatalogPage(BasePage):
@@ -297,15 +302,15 @@ class CatalogPage(BasePage):
         self.get_button_product2_buy().click()
 
     def click_button_submit(self):
-        action = ActionChains(self.driver)
-        action.move_to_element(self.get_button_submit()).click(self.get_button_submit()).perform()
-        time.sleep(2)
+        with allure.step('Применение фильтров'):
+            action = ActionChains(self.driver)
+            action.move_to_element(self.get_button_submit()).click(self.get_button_submit()).perform()
+            time.sleep(2)
 
     def click_button_reset(self):
         action = ActionChains(self.driver)
         action.move_to_element(self.get_button_reset()).click(self.get_button_reset()).perform()
 
-    # Methods
     def set_price(self, price_min, price_max):
         self.input_filter_price(price_min, price_max)
 
@@ -323,3 +328,83 @@ class CatalogPage(BasePage):
 
     def set_stock(self):
         self.input_filter_stock()
+
+    def go_to_product_page(self, link):
+        self.driver.get(link)
+        time.sleep(2)
+
+    # Methods
+    def check_name_price_link2(self):
+        catalog = CatalogPage(self.driver)
+        product_name_in_catalog = catalog.get_name_product1()
+        product_price_in_catalog = catalog.get_price_product1()
+        product_link_in_catalog = catalog.get_link_product1()
+        print(product_name_in_catalog)
+        print(product_price_in_catalog)
+        print(product_link_in_catalog)
+
+    def get_product_info_and_check_catalog_cart(self):
+        with allure.step('Проверка названия, цены и ссылки товара'):
+            catalog = CatalogPage(self.driver)
+            product_name_in_catalog = catalog.get_name_product1()
+            product_price_in_catalog = catalog.get_price_product1()
+            product_link_in_catalog = catalog.get_link_product1()
+            catalog.click_button_product1_buy()
+            catalog.go_to_cart()
+            cart = CartPage(self.driver)
+            product_name_in_cart = cart.get_name_product()
+            product_price_in_cart = cart.get_price_product()
+            product_link_in_cart = cart.get_link_product()
+            cart.check_name_price_link(product_name_in_catalog, product_name_in_cart,
+                                       product_price_in_catalog, product_price_in_cart,
+                                       product_link_in_catalog, product_link_in_cart)
+
+    def get_product_info_and_check_catalog_compare(self):
+        with allure.step('Проверка названия, цены и ссылки товара'):
+            catalog = CatalogPage(self.driver)
+
+            product1_name_in_catalog = catalog.get_name_product1()
+            product1_price_in_catalog = catalog.get_price_product1()
+            product1_link_in_catalog = catalog.get_link_product1()
+            product2_name_in_catalog = catalog.get_name_product2()
+            product2_price_in_catalog = catalog.get_price_product2()
+            product2_link_in_catalog = catalog.get_link_product2()
+
+            catalog.click_button_product1_compare()
+            catalog.click_button_product2_compare()
+            catalog.go_to_comparison_page()
+            compare = ComparisonPage(self.driver)
+
+            product1_name_in_comparison = compare.get_name_product1()
+            product1_price_in_comparison = compare.get_price_product1()
+            product1_link_in_comparison = compare.get_link_product1()
+            product2_name_in_comparison = compare.get_name_product2()
+            product2_price_in_comparison = compare.get_price_product2()
+            product2_link_in_comparison = compare.get_link_product2()
+
+            compare.check_name_price_link(product1_name_in_catalog, product1_name_in_comparison,
+                                          product1_price_in_catalog, product1_price_in_comparison,
+                                          product1_link_in_catalog, product1_link_in_comparison,
+                                          product2_name_in_catalog, product2_name_in_comparison,
+                                          product2_price_in_catalog, product2_price_in_comparison,
+                                          product2_link_in_catalog, product2_link_in_comparison)
+
+    def get_product_info_and_check_catalog_product(self):
+        with allure.step('Проверка названия, цены и ссылки товара'):
+            catalog = CatalogPage(self.driver)
+
+            product_name_in_catalog = catalog.get_name_product1()
+            product_price_in_catalog = catalog.get_price_product1()
+            product_link_in_catalog = catalog.get_link_product1()
+
+            catalog.go_to_product_page(product_link_in_catalog)
+
+            product = ProductPage(self.driver)
+
+            product_name_in_product = product.get_name_product()
+            product_price_in_product = product.get_price_product()
+            product_link_in_product = product.get_link_product()
+
+            product.check_name_price_link(product_name_in_catalog, product_name_in_product,
+                                          product_price_in_catalog, product_price_in_product,
+                                          product_link_in_catalog, product_link_in_product)

@@ -1,9 +1,11 @@
 import time
+import allure
 
 from pages.base_page import BasePage
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from pages.cart_page import CartPage
 
 
 class ProductPage(BasePage):
@@ -55,3 +57,23 @@ class ProductPage(BasePage):
         print(f'name:{self.check_name(name_in_catalog, name_in_product)}')
         print(f'price:{self.check_price(price_in_catalog, price_in_product)}')
         print(f'link:{self.check_links(link_in_catalog, link_in_product)}')
+
+    def get_product_info_and_check_product_cart(self):
+        with allure.step('Проверка названия, цены и ссылки товара'):
+            product = ProductPage(self.driver)
+
+            product_name_in_product = product.get_name_product()
+            product_price_in_product = product.get_price_product()
+            product_link_in_product = product.get_link_product()
+
+            product.click_button_buy()
+            product.go_to_cart()
+            cart = CartPage(self.driver)
+
+            product_name_in_cart = cart.get_name_product()
+            product_price_in_cart = cart.get_price_product()
+            product_link_in_cart = cart.get_link_product()
+
+            cart.check_name_price_link(product_name_in_product, product_name_in_cart,
+                                       product_price_in_product, product_price_in_cart,
+                                       product_link_in_product, product_link_in_cart)

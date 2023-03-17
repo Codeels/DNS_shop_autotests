@@ -1,6 +1,7 @@
-# Тесты предназначены для проверки сайта магазина электроники DNS
+# Тесты предназначены для тестирования основных функций сайта магазина электроники DNS
 
-**Команда для запуска тестов**: pytest -sv test.py
+**Команда для запуска тестов**:  pytest -sv --alluredir=test_results/ test.py
+**Команда для просмотра отчетов allure**:  allure serve test_results/
 
 **Команда для установки пакетов из requirements.txt**: pip install -r requirements.txt
 

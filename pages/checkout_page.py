@@ -1,4 +1,5 @@
 import time
+import allure
 
 from selenium.webdriver import ActionChains, Keys
 from pages.base_page import BasePage
@@ -121,13 +122,14 @@ class CheckoutPage(BasePage):
             self.click_button_choose_shop2()
 
     def input_data_and_code(self, telephone_number_checkout, login, sms_code_checkout):
-        self.input_telephone_number(telephone_number_checkout)
-        self.input_email(login)
-        self.choose_shop()
-        time.sleep(2)
-        self.click_button_confirm_order()
-        self.input_sms_code(sms_code_checkout)
-        time.sleep(1)
-        self.click_button_confirm_sms_code()
-        print(f'error message: {self.check_error_message()}')
-        time.sleep(5)
+        with allure.step('Оформление заказа'):
+            self.input_telephone_number(telephone_number_checkout)
+            self.input_email(login)
+            self.choose_shop()
+            time.sleep(2)
+            self.click_button_confirm_order()
+            self.input_sms_code(sms_code_checkout)
+            time.sleep(1)
+            self.click_button_confirm_sms_code()
+            print(f'error message: {self.check_error_message()}')
+            time.sleep(5)

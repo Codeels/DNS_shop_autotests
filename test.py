@@ -1,4 +1,5 @@
 import pytest
+import allure
 
 from pages.catalog_page import CatalogPage
 from pages.checkout_page import CheckoutPage
@@ -10,20 +11,21 @@ from pages.product_page import ProductPage
 
 login = 'gamag25045@ekcsoft.com'
 password = 'gamag25045'
+telephone_number_checkout = '1111111111'
+sms_code_checkout = '111111'
+
+# данные для фильтрации
 cores = [1, 1, 1]
 price = [1500, 15000]
 brand = [0, 1]
 internal_graphics = [1, 0]
 ram = [1, 1]
-telephone_number_checkout = '1111111111'
-sms_code_checkout = '111111'
 
 
-@pytest.mark.flaky(reruns=1, reruns_delay=5)
+@allure.description('Тест 1')
+@pytest.mark.flaky(reruns=2, reruns_delay=5)
 def test_1(driver):
-    link = "https://www.dns-shop.ru/"
-
-    # логин
+    # авторизация
     mp = MainPage(driver)
     mp.log_in(login, password, main=True)
 
@@ -45,32 +47,19 @@ def test_1(driver):
     catalog.click_button_submit()
 
     # сравнение атрибутов товара из каталога и корзины
-    product_name_in_catalog = catalog.get_name_product1()
-    product_price_in_catalog = catalog.get_price_product1()
-    product_link_in_catalog = catalog.get_link_product1()
-    catalog.click_button_product1_buy()
-    catalog.go_to_cart()
-    cart = CartPage(driver)
-    product_name_in_cart = cart.get_name_product()
-    product_price_in_cart = cart.get_price_product()
-    product_link_in_cart = cart.get_link_product()
-    cart.check_name_price_link(product_name_in_catalog, product_name_in_cart,
-                               product_price_in_catalog, product_price_in_cart,
-                               product_link_in_catalog, product_link_in_cart)
+    catalog = CatalogPage(driver)
+    catalog.get_product_info_and_check_catalog_cart()
 
     # оформление товара. в конце проверка на неправильный код из смс
+    cart = CartPage(driver)
     cart.click_button_checkout()
     checkout = CheckoutPage(driver)
     checkout.input_data_and_code(telephone_number_checkout, login, sms_code_checkout)
 
 
-@pytest.mark.flaky(reruns=1, reruns_delay=5)
+@allure.description('Тест 2')
+@pytest.mark.flaky(reruns=2, reruns_delay=5)
 def test_2(driver):
-    link = "https://www.dns-shop.ru/"
-    mp = MainPage(driver)
-
-    # очистка корзины и страницы сравнения от товаров
-    mp.clear_cart_and_comparison(driver, CartPage, ComparisonPage)
     mp = MainPage(driver)
 
     # переход на страницу с товарами
@@ -87,31 +76,21 @@ def test_2(driver):
     catalog.click_button_submit()
 
     # сравнение атрибутов товара в каталоге и в корзине
-    product_name_in_catalog = catalog.get_name_product1()
-    product_price_in_catalog = catalog.get_price_product1()
-    product_link_in_catalog = catalog.get_link_product1()
-    catalog.click_button_product1_buy()
-    catalog.go_to_cart()
-    cart = CartPage(driver)
-    product_name_in_cart = cart.get_name_product()
-    product_price_in_cart = cart.get_price_product()
-    product_link_in_cart = cart.get_link_product()
-    cart.check_name_price_link(product_name_in_catalog, product_name_in_cart,
-                               product_price_in_catalog, product_price_in_cart,
-                               product_link_in_catalog, product_link_in_cart)
+    catalog = CatalogPage(driver)
+    catalog.get_product_info_and_check_catalog_cart()
 
     # заполнение данных на странице оформления заказа.
-    # на этой странице происходит логин. в конце проверка на неправильный код из смс
+    # на этой странице происходит авторизация. в конце проверка на неправильный код из смс
+    cart = CartPage(driver)
     cart.click_button_checkout()
     checkout = CheckoutPage(driver)
     mp.log_in(login, password, checkout=True)
     checkout.input_data_and_code(telephone_number_checkout, login, sms_code_checkout)
 
-
-@pytest.mark.flaky(reruns=1, reruns_delay=5)
+@allure.description('Тест 3')
+@pytest.mark.flaky(reruns=2, reruns_delay=5)
 def test_3(driver):
-    link = "https://www.dns-shop.ru/"
-    # логин
+    # авторизация
     mp = MainPage(driver)
     mp.log_in(login, password, main=True)
 
@@ -121,9 +100,9 @@ def test_3(driver):
     # переход на страницу с товарами
     mp = MainPage(driver)
     mp.go_to_cpus()
+    catalog = CatalogPage(driver)
 
     # фильтрация товаров по параметрам
-    catalog = CatalogPage(driver)
     catalog.set_stock()
     catalog.set_price(*price)
     catalog.set_brand(*brand)
@@ -133,33 +112,10 @@ def test_3(driver):
     catalog.click_button_submit()
 
     # сравнение параметров товаров из каталога и страницы сравнения
-    product1_name_in_catalog = catalog.get_name_product1()
-    product1_price_in_catalog = catalog.get_price_product1()
-    product1_link_in_catalog = catalog.get_link_product1()
-    product2_name_in_catalog = catalog.get_name_product2()
-    product2_price_in_catalog = catalog.get_price_product2()
-    product2_link_in_catalog = catalog.get_link_product2()
+    catalog.get_product_info_and_check_catalog_compare()
 
-    catalog.click_button_product1_compare()
-    catalog.click_button_product2_compare()
-    catalog.go_to_comparison_page()
+    # выбор товара подешевле на странице сравнения товаров
     compare = ComparisonPage(driver)
-
-    product1_name_in_comparison = compare.get_name_product1()
-    product1_price_in_comparison = compare.get_price_product1()
-    product1_link_in_comparison = compare.get_link_product1()
-    product2_name_in_comparison = compare.get_name_product2()
-    product2_price_in_comparison = compare.get_price_product2()
-    product2_link_in_comparison = compare.get_link_product2()
-
-    compare.check_name_price_link(product1_name_in_catalog, product1_name_in_comparison,
-                                  product1_price_in_catalog, product1_price_in_comparison,
-                                  product1_link_in_catalog, product1_link_in_comparison,
-                                  product2_name_in_catalog, product2_name_in_comparison,
-                                  product2_price_in_catalog, product2_price_in_comparison,
-                                  product2_link_in_catalog, product2_link_in_comparison)
-
-    # выбор товара подешевле на странце сравнения товаров
     compare.choose_best_product()
 
     # переход в корзину
@@ -171,11 +127,10 @@ def test_3(driver):
     checkout = CheckoutPage(driver)
     checkout.input_data_and_code(telephone_number_checkout, login, sms_code_checkout)
 
-
+@allure.description('Тест 4')
 @pytest.mark.flaky(reruns=2, reruns_delay=5)
 def test_4(driver):
-    link = "https://www.dns-shop.ru/"
-    # логин
+    # авторизация
     mp = MainPage(driver)
     mp.log_in(login, password, main=True)
 
@@ -196,38 +151,16 @@ def test_4(driver):
     catalog.set_ram(*ram)
     catalog.click_button_submit()
 
-    # сравние атрибутов товара в каталоге и на странице товара
-    product_name_in_catalog = catalog.get_name_product1()
-    product_price_in_catalog = catalog.get_price_product1()
-    product_link_in_catalog = catalog.get_link_product1()
-    driver.get(product_link_in_catalog)
+    # сравнение атрибутов товара в каталоге и на странице товара
+    catalog.get_product_info_and_check_catalog_product()
+
+    # сравнение атрибутов товара на странице товара и в корзине. покупка
     product = ProductPage(driver)
-    product_name_in_product = product.get_name_product()
-    product_price_in_product = product.get_price_product()
-    product_link_in_product = product.get_link_product()
-
-    product.check_name_price_link(product_name_in_catalog, product_name_in_product,
-                                  product_price_in_catalog, product_price_in_product,
-                                  product_link_in_catalog, product_link_in_product)
-
-    # покупка товара
-    product.click_button_buy()
-
-    # переход корзину
-    product.go_to_cart()
-    cart = CartPage(driver)
-
-    # сравнение атрибутов товара на странице товара и в корзине
-    product_name_in_cart = cart.get_name_product()
-    product_price_in_cart = cart.get_price_product()
-    product_link_in_cart = cart.get_link_product()
-
-    cart.check_name_price_link(product_name_in_product, product_name_in_cart,
-                               product_price_in_product, product_price_in_cart,
-                               product_link_in_product, product_link_in_cart)
+    product.get_product_info_and_check_product_cart()
 
     # заполнение данных на странице оформления заказа.
-    # на этой странице происходит логин. в конце проверка на неправильный код из смс
+    # на этой странице происходит авторизация. в конце проверка на неправильный код из смс
+    cart = CartPage(driver)
     cart.click_button_checkout()
     checkout = CheckoutPage(driver)
     checkout.input_data_and_code(telephone_number_checkout, login, sms_code_checkout)

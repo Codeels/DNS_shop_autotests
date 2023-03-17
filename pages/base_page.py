@@ -1,11 +1,13 @@
 import datetime
 import time
+import allure
 
 from selenium.common import NoSuchElementException
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+
 
 
 class BasePage():
@@ -137,22 +139,24 @@ class BasePage():
         print("URL OK")
 
     def log_in(self, login, password, main=False, checkout=False):
-        action = ActionChains(self.driver)
-        if main:
-            action.move_to_element(self.get_button_login_header_main()).perform()
-            action.move_to_element(self.get_button_login_main()).click().perform()
-        else:
-            self.get_button_login_checkout().click()
-        self.click_button_enter_with_password()
-        self.input_field_email(login)
-        self.input_field_password(password)
-        time.sleep(1)
-        self.click_button_enter()
-        time.sleep(1)
+        with allure.step('Авторизация'):
+            action = ActionChains(self.driver)
+            if main:
+                action.move_to_element(self.get_button_login_header_main()).perform()
+                action.move_to_element(self.get_button_login_main()).click().perform()
+            else:
+                self.get_button_login_checkout().click()
+            self.click_button_enter_with_password()
+            self.input_field_email(login)
+            self.input_field_password(password)
+            time.sleep(1)
+            self.click_button_enter()
+            time.sleep(1)
 
     def go_to_cart(self):
-        self.click_button_cart()
-        time.sleep(2)
+        with allure.step('Переход в корзину'):
+            self.click_button_cart()
+            time.sleep(2)
 
     def go_to_comparison_page(self):
         self.click_button_compare()
@@ -189,11 +193,12 @@ class BasePage():
         return True
 
     def clear_cart_and_comparison(self, driver, CartPage, ComparisonPage):
-        self.go_to_cart()
-        cart_page = CartPage(driver)
-        cart_page.delete_products_in_cart()
-        cart_page.go_to_comparison_page()
-        comparison_page = ComparisonPage(driver)
-        comparison_page.delete_products_in_comparison()
-        comparison_page.go_to_main_page()
+        with allure.step('Очистка корзины и страницы сравнения'):
+            self.go_to_cart()
+            cart_page = CartPage(driver)
+            cart_page.delete_products_in_cart()
+            cart_page.go_to_comparison_page()
+            comparison_page = ComparisonPage(driver)
+            comparison_page.delete_products_in_comparison()
+            comparison_page.go_to_main_page()
 

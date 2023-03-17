@@ -1,4 +1,5 @@
 import time
+import allure
 
 from pages.base_page import BasePage
 from selenium.webdriver.common.by import By
@@ -61,8 +62,9 @@ class CartPage(BasePage):
 
     # Actions
     def click_button_checkout(self):
-        self.get_button_checkout().click()
-        time.sleep(2)
+        with allure.step('Переход на страницу оформления заказа'):
+            self.get_button_checkout().click()
+            time.sleep(2)
 
     def click_button_delete_product(self):
         self.get_button_delete_product().click()
@@ -79,8 +81,12 @@ class CartPage(BasePage):
         elif self.element_is_present('//div[@class="cart-items__product"][2]'):
             self.click_button_delete_products()
 
-    def check_name_price_link(self, name_in_catalog, name_in_cart, price_in_catalog, price_in_cart,
+    def check_name_price_link(self,
+                              name_in_catalog, name_in_cart,
+                              price_in_catalog, price_in_cart,
                               link_in_catalog, link_in_cart):
         print(f'name:{self.check_name(name_in_catalog, name_in_cart)}')
         print(f'price:{self.check_price(price_in_catalog, price_in_cart)}')
         print(f'link:{self.check_links(link_in_catalog, link_in_cart)}')
+
+

@@ -1,4 +1,5 @@
 import time
+import allure
 
 from pages.base_page import BasePage
 from selenium.webdriver.common.by import By
@@ -46,7 +47,8 @@ class MainPage(BasePage):
 
     # Methods
     def go_to_cpus(self):
-        self.click_computer_parts_link()
-        self.click_major_parts_link()
-        self.click_link_cpus()
-        time.sleep(2)
+        with allure.step('Переход к странице с процессорами'):
+            self.click_computer_parts_link()
+            self.click_major_parts_link()
+            self.click_link_cpus()
+            time.sleep(2)

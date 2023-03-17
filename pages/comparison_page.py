@@ -1,4 +1,5 @@
 import time
+import allure
 
 from pages.base_page import BasePage
 from selenium.webdriver.common.by import By
@@ -96,11 +97,12 @@ class ComparisonPage(BasePage):
             pass
 
     def choose_best_product(self):
-        if self.get_price_product1() < self.get_price_product2():
-            self.click_button_product1_buy()
-        else:
-            self.click_button_product2_buy()
-        time.sleep(2)
+        with allure.step('Выбор товара'):
+            if self.get_price_product1() < self.get_price_product2():
+                self.click_button_product1_buy()
+            else:
+                self.click_button_product2_buy()
+            time.sleep(2)
 
     def check_name_price_link(self,
                               name1_in_catalog, name1_in_comparison,
