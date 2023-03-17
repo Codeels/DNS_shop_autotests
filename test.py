@@ -22,6 +22,7 @@ internal_graphics = [1, 0]
 ram = [1, 1]
 
 
+@allure.title("Тест 1")
 @allure.description('Тест 1')
 @pytest.mark.flaky(reruns=2, reruns_delay=5)
 def test_1(driver):
@@ -57,6 +58,7 @@ def test_1(driver):
     checkout.input_data_and_code(telephone_number_checkout, login, sms_code_checkout)
 
 
+@allure.title("Тест 2")
 @allure.description('Тест 2')
 @pytest.mark.flaky(reruns=2, reruns_delay=5)
 def test_2(driver):
@@ -87,6 +89,8 @@ def test_2(driver):
     mp.log_in(login, password, checkout=True)
     checkout.input_data_and_code(telephone_number_checkout, login, sms_code_checkout)
 
+
+@allure.title("Тест 3")
 @allure.description('Тест 3')
 @pytest.mark.flaky(reruns=2, reruns_delay=5)
 def test_3(driver):
@@ -127,6 +131,8 @@ def test_3(driver):
     checkout = CheckoutPage(driver)
     checkout.input_data_and_code(telephone_number_checkout, login, sms_code_checkout)
 
+
+@allure.title("Тест 4")
 @allure.description('Тест 4')
 @pytest.mark.flaky(reruns=2, reruns_delay=5)
 def test_4(driver):
