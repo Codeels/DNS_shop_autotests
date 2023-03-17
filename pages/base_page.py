@@ -149,9 +149,9 @@ class BasePage():
             self.click_button_enter_with_password()
             self.input_field_email(login)
             self.input_field_password(password)
-            time.sleep(1)
+            time.sleep(2)
             self.click_button_enter()
-            time.sleep(1)
+            time.sleep(2)
 
     def go_to_cart(self):
         with allure.step('Переход в корзину'):
