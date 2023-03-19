@@ -37,7 +37,6 @@ class MainPage(BasePage):
 
     def click_computer_parts_link(self):
         self.get_computer_parts_link().click()
-        print("Click")
 
     def click_major_parts_link(self):
         self.get_major_parts_link().click()
