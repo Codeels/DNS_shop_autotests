@@ -13,6 +13,7 @@
 #     yield driver
 #     driver.quit()
 #     print("\nbrowser close")
+import time
 
 import pytest
 from selenium import webdriver
@@ -27,6 +28,8 @@ def driver():
     options.add_argument("--window-size=1920,1080")
     options.headless = True
     driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+    time.sleep(15)
     driver.get(link)
+    time.sleep(15)
     yield driver
     driver.quit()
