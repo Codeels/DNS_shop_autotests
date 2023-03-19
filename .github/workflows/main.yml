@@ -18,19 +18,19 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: '3.8'
-          
-      - name: chrome install
-        uses: browser-actions/setup-chrome@v1
-        with:
-          chrome-version: 1070649
-      
-      - name: chrome version check
-        run: chrome --version
-      
+
       - name: python dependencies install
         uses: py-actions/py-dependency-install@v3
         with:
           path: "requirements.txt"
+
+      - name: chrome install
+        uses: browser-actions/setup-chrome@v1
+        with:
+          chrome-version: 1070649
+
+      - name: chrome version check
+        run: chrome --version
 
       - name: tests run
         if: always()
