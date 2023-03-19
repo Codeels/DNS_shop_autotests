@@ -16,7 +16,7 @@
 #     print("\nbrowser close")
 
 
-# import pytest
+import pytest
 # from selenium import webdriver
 # from selenium.webdriver.chrome.service import Service as ChromeService
 # from webdriver_manager.chrome import ChromeDriverManager
@@ -41,20 +41,30 @@ from webdriver_manager.core.utils import ChromeType
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 
-chrome_service = Service(ChromeDriverManager(chrome_type=ChromeType.CHROMIUM).install())
 
-chrome_options = Options()
-# options = [
-#     "--headless",
-#     "--disable-gpu",
-#     "--window-size=1920,1200",
-#     "--ignore-certificate-errors",
-#     "--disable-extensions",
-#     "--no-sandbox",
-#     "--disable-dev-shm-usage"
-# ]
-# for option in options:
-#     chrome_options.add_argument(option)
+@pytest.fixture(scope="function")
+def driver():
+    print("\nbrowser open")
+    link = "https://www.dns-shop.ru/"
 
-chrome_options.add_argument("--headless")
-driver = webdriver.Chrome(service=chrome_service, options=chrome_options)
+    chrome_service = Service(ChromeDriverManager(chrome_type=ChromeType.CHROMIUM).install())
+
+    chrome_options = Options()
+    options = [
+        "--headless",
+        "--disable-gpu",
+        "--window-size=1920,1200",
+        "--ignore-certificate-errors",
+        "--disable-extensions",
+        "--no-sandbox",
+        "--disable-dev-shm-usage"
+    ]
+    for option in options:
+        chrome_options.add_argument(option)
+
+    # chrome_options.add_argument("--headless")
+    driver = webdriver.Chrome(service=chrome_service, options=chrome_options)
+    driver.get(link)
+    yield driver
+    driver.quit()
+    print("\nbrowser close")
