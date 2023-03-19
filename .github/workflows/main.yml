@@ -41,6 +41,7 @@ jobs:
         continue-on-error: false
 
       - name: get Allure history
+        needs: tests run
         uses: actions/checkout@v2
         if: always()
         continue-on-error: false
@@ -49,6 +50,7 @@ jobs:
           path: gh-pages
 
       - name: Test marketplace action
+        needs: tests run
         uses: simple-elf/allure-report-action@master
         if: always()
         with:
@@ -56,7 +58,8 @@ jobs:
           allure_history: allure-history
 
       - name: Deploy report to Github Pages
-        if: always()
+        needs: tests run
+#        if: always()
         uses: peaceiris/actions-gh-pages@v2
         env:
           PERSONAL_TOKEN: ${{ secrets.ALLURE_DEPLOY }}
