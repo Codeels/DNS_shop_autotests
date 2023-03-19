@@ -38,7 +38,7 @@ jobs:
       - name: tests run
 #        if: always()
         run: pytest --alluredir=allure-results test.py
-        continue-on-error: true
+        continue-on-error: false
 
       - name: get Allure history
         uses: actions/checkout@v2
