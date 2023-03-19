@@ -82,7 +82,9 @@ link = "https://www.dns-shop.ru/"
 @pytest.fixture(scope="function")
 def driver():
     options = webdriver.ChromeOptions()
+    options.add_argument("--no-sandbox")
     options.add_argument("--window-size=1600,1080")
+    options.add_argument("--headless")
     options.headless = True
     driver = webdriver.Chrome(
         service=Service(ChromeDriverManager().install()), options=options
