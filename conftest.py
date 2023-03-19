@@ -23,13 +23,12 @@ from selenium.webdriver.chrome.service import Service
 
 @pytest.fixture(scope="function")
 def driver():
+    print("\nbrowser open")
     link = "https://www.dns-shop.ru/"
     options = webdriver.ChromeOptions()
-    options.add_argument("--window-size=1920,1080")
-    options.headless = True
     driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
-    time.sleep(15)
+    driver.maximize_window()
     driver.get(link)
-    time.sleep(15)
     yield driver
     driver.quit()
+    print("\nbrowser close")
