@@ -18,15 +18,14 @@ import time
 import pytest
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
-from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.service import Service as ChromeService
 
 
 @pytest.fixture(scope="function")
 def driver():
     print("\nbrowser open")
     link = "https://www.dns-shop.ru/"
-    options = webdriver.ChromeOptions()
-    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+    driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
     driver.maximize_window()
     driver.get(link)
     yield driver
