@@ -4,7 +4,7 @@ on: workflow_dispatch
 
 jobs:
   dns_ui_test:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
       - name: repo check-out
         uses: actions/checkout@v3
@@ -16,6 +16,8 @@ jobs:
           
       - name: chrome install
         uses: browser-actions/setup-chrome@v1
+        with:
+          chrome-version: 1090527
       
       - name: chrome version check
         run: chrome --version
