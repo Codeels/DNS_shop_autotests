@@ -1,6 +1,6 @@
 name: dns_test_selenium
 
-on: [workflow_dispatch, push]
+on: workflow_dispatch
 
 permissions:
   checks: write
