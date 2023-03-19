@@ -24,17 +24,20 @@ jobs:
         with:
           path: "requirements.txt"
 
+#      - name: chrome install
+#        uses: browser-actions/setup-chrome@v1
+#        with:
+#          chrome-version: 1070649
+
       - name: chrome install
         uses: browser-actions/setup-chrome@v1
-        with:
-          chrome-version: 1070649
 
       - name: chrome version check
         run: chrome --version
 
       - name: tests run
         if: always()
-        run: pytest --alluredir=allure-results test.py::test_1
+        run: pytest --alluredir=allure-results test.py
         continue-on-error: false
 
       - name: get Allure history
