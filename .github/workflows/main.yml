@@ -9,7 +9,7 @@ permissions:
 
 jobs:
   dns_ui_test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu 20.04.5
     steps:
       - name: repo check-out
         uses: actions/checkout@v3
@@ -17,27 +17,28 @@ jobs:
       - name: python install
         uses: actions/setup-python@v4
         with:
-          python-version: '3.10'
+          python-version: '3.8'
           
       - name: chrome install
-        uses: browser-actions/setup-chrome@v1
+        uses: browser-actions/setup-chrome@latest
       
       - name: chrome version check
         run: chrome --version
       
       - name: python dependencies install
-        uses: py-actions/py-dependency-install@v4
+        uses: py-actions/py-dependency-install@v3
         with:
           path: "requirements.txt"
       
       - name: tests run
-        run: pytest --alluredir=allure-results test.py
+        if: always()
+        run: pytest --alluredir=allure-results test.py::test_1
         continue-on-error: false
         
       - name: get Allure history
         uses: actions/checkout@v2
         if: always()
-        continue-on-error: true
+        continue-on-error: false
         with:
           ref: gh-pages
           path: gh-pages
