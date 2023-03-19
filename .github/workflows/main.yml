@@ -24,13 +24,13 @@ jobs:
         with:
           path: "requirements.txt"
 
-#      - name: chrome install
-#        uses: browser-actions/setup-chrome@v1
-#        with:
-#          chrome-version: 1070649
-
       - name: chrome install
         uses: browser-actions/setup-chrome@v1
+        with:
+          chrome-version: 1070649
+
+#      - name: chrome install
+#        uses: browser-actions/setup-chrome@v1
 
       - name: chrome version check
         run: chrome --version
