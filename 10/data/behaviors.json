@@ -1,0 +1,1 @@
+{"uid":"b1a8273437954620fa374b796ffaacdd","children":[{"name":"Тест 1","uid":"14892428dedf7845","parentUid":"b1a8273437954620fa374b796ffaacdd","status":"broken","time":{"start":1679237037026,"stop":1679237067037,"duration":30011},"flaky":false,"newFailed":false,"newPassed":false,"newBroken":false,"retriesCount":2,"retriesStatusChange":false,"parameters":[]}],"name":"behaviors"}
