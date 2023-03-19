@@ -7,7 +7,8 @@ from selenium.webdriver.chrome.service import Service
 def driver():
     print("\nbrowser open")
     link = "https://www.dns-shop.ru/"
-    driver = webdriver.Chrome(service=Service("DNS_shop\\chromedriver"))
+    # driver = webdriver.Chrome(service=Service("DNS_shop\\chromedriver"))
+    driver = webdriver.Chrome(service=Service("\\chromedriver"))
     driver.get(link)
     driver.maximize_window()
     yield driver
