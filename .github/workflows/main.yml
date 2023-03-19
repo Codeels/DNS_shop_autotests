@@ -9,7 +9,7 @@ permissions:
 
 jobs:
   dns_ui_test:
-    runs-on: ubuntu 20.04.5
+    runs-on: ubuntu-latest
     steps:
       - name: repo check-out
         uses: actions/checkout@v3
