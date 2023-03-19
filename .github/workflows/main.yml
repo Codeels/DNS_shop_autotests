@@ -20,7 +20,9 @@ jobs:
           python-version: '3.8'
           
       - name: chrome install
-        uses: browser-actions/setup-chrome@latest
+        uses: browser-actions/setup-chrome@v1
+        with:
+          chrome-version: 112024
       
       - name: chrome version check
         run: chrome --version
