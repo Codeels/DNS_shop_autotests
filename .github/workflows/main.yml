@@ -9,7 +9,7 @@ permissions:
 
 jobs:
   dns_ui_test:
-    runs-on: windows-2019
+    runs-on: windows-2022
     steps:
       - name: repo check-out
         uses: actions/checkout@v3
@@ -21,8 +21,6 @@ jobs:
           
       - name: chrome install
         uses: browser-actions/setup-chrome@v1
-        with:
-          chrome-version: 112024
       
       - name: chrome version check
         run: chrome --version
