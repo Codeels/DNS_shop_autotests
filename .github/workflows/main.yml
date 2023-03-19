@@ -22,7 +22,7 @@ jobs:
       - name: chrome install
         uses: browser-actions/setup-chrome@v1
         with:
-          chrome-version: 107000
+          chrome-version: 107
       
       - name: chrome version check
         run: chrome --version
