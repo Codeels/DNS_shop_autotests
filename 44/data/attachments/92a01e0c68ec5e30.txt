@@ -1,0 +1,21 @@
+
+browser open
+name:True
+price:True
+link:True
+
+browser close
+
+browser open
+name:True
+price:True
+link:True
+
+browser close
+
+browser open
+name:True
+price:True
+link:True
+
+browser close
