@@ -1,0 +1,5 @@
+"Status","Start Time","Stop Time","Duration in ms","Parent Suite","Suite","Sub Suite","Test Class","Test Method","Name","Description"
+"broken","Wed Apr 05 06:00:14 GMT 2023","Wed Apr 05 06:01:18 GMT 2023","63118","","test","","","","Тест 2","Тест 2"
+"broken","Wed Apr 05 06:04:30 GMT 2023","Wed Apr 05 06:05:57 GMT 2023","87079","","test","","","","Тест 3","Тест 3"
+"broken","Wed Apr 05 05:56:23 GMT 2023","Wed Apr 05 05:57:43 GMT 2023","80928","","test","","","","Тест 1","Тест 1"
+"broken","Wed Apr 05 06:08:57 GMT 2023","Wed Apr 05 06:10:20 GMT 2023","83024","","test","","","","Тест 4","Тест 4"

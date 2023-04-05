@@ -1,0 +1,20 @@
+
+browser open
+name1:True
+price1:True
+link1:True
+name2:True
+price2:True
+link2:True
+
+browser close
+
+browser open
+name1:True
+price1:True
+link1:True
+name2:True
+price2:True
+link2:True
+
+browser close
