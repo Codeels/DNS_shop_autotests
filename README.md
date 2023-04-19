@@ -1,10 +1,12 @@
 # Тесты для тестирования основных функций сайта магазина электроники DNS
 
+**Команда для установки пакетов из requirements.txt**: pip install -r requirements.txt
+
 **Команда для запуска тестов**:  pytest -sv --alluredir=test_results/ test.py
 
 **Команда для просмотра отчетов allure**:  allure serve test_results/
 
-**Команда для установки пакетов из requirements.txt**: pip install -r requirements.txt
+
 
 [Ссылка на Allure отчет из GitHub Actions](https://codeels.github.io/DNS_shop_autotests/)
 
